@@ -1,0 +1,11 @@
+D:\Hoctap\(3) C-Sharp\FileFilter\FileFilter\bin\Debug\FileFilter.exe.config
+D:\Hoctap\(3) C-Sharp\FileFilter\FileFilter\bin\Debug\FileFilter.exe
+D:\Hoctap\(3) C-Sharp\FileFilter\FileFilter\bin\Debug\FileFilter.pdb
+D:\Hoctap\(3) C-Sharp\FileFilter\FileFilter\obj\Debug\FileFilter.csproj.AssemblyReference.cache
+D:\Hoctap\(3) C-Sharp\FileFilter\FileFilter\obj\Debug\FileFilter.csproj.SuggestedBindingRedirects.cache
+D:\Hoctap\(3) C-Sharp\FileFilter\FileFilter\obj\Debug\FileFilter.Properties.Resources.resources
+D:\Hoctap\(3) C-Sharp\FileFilter\FileFilter\obj\Debug\FileFilter.csproj.GenerateResource.cache
+D:\Hoctap\(3) C-Sharp\FileFilter\FileFilter\obj\Debug\FileFilter.csproj.CoreCompileInputs.cache
+D:\Hoctap\(3) C-Sharp\FileFilter\FileFilter\obj\Debug\FileFilter.exe
+D:\Hoctap\(3) C-Sharp\FileFilter\FileFilter\obj\Debug\FileFilter.pdb
+D:\Hoctap\(3) C-Sharp\FileFilter\FileFilter\obj\Debug\FileFilter.FileFilterForm.resources
