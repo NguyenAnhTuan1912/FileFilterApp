@@ -9,13 +9,13 @@ using System.Windows.Forms;
 
 namespace FileFilter.DAL
 {
-    internal class FileDAL
+    public class FileDAL
     {
         private string _sourcePath;
         private string _destinationPath;
+        private FolderBrowserDialog _folderBrowserDialog = new FolderBrowserDialog();
 
         private static object _lock = new object();
-        private static FolderBrowserDialog _folderBrowserDialog = new FolderBrowserDialog();
 
         public static FileDAL instance = null;
 

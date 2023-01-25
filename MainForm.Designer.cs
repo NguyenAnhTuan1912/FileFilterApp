@@ -44,6 +44,9 @@
             this.btnJustMove = new System.Windows.Forms.Button();
             this.btnOpenInformationForm = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.ckbSeparateFiles = new System.Windows.Forms.CheckBox();
+            this.ckbSaveToNewFolder = new System.Windows.Forms.CheckBox();
+            this.txtNewFolderName = new System.Windows.Forms.TextBox();
             this.lblMultipleFileNamesStatus = new System.Windows.Forms.Label();
             this.btnOpenMultipleFileNameImportingForm = new System.Windows.Forms.Button();
             this.radMultipleFileNameImportingForm = new System.Windows.Forms.RadioButton();
@@ -89,11 +92,11 @@
             this.rtbOutput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.rtbOutput.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.rtbOutput.Font = new System.Drawing.Font("Roboto", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rtbOutput.Location = new System.Drawing.Point(29, 415);
+            this.rtbOutput.Location = new System.Drawing.Point(29, 460);
             this.rtbOutput.MinimumSize = new System.Drawing.Size(706, 130);
             this.rtbOutput.Name = "rtbOutput";
             this.rtbOutput.ReadOnly = true;
-            this.rtbOutput.Size = new System.Drawing.Size(706, 219);
+            this.rtbOutput.Size = new System.Drawing.Size(706, 257);
             this.rtbOutput.TabIndex = 6;
             this.rtbOutput.Text = "";
             // 
@@ -101,7 +104,7 @@
             // 
             this.progressBar.BackColor = System.Drawing.Color.White;
             this.progressBar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.progressBar.Location = new System.Drawing.Point(97, 378);
+            this.progressBar.Location = new System.Drawing.Point(97, 431);
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(638, 23);
             this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
@@ -118,13 +121,14 @@
             // 
             // txtSourcePath
             // 
-            this.txtSourcePath.Location = new System.Drawing.Point(181, 35);
+            this.txtSourcePath.Location = new System.Drawing.Point(192, 35);
             this.txtSourcePath.Name = "txtSourcePath";
-            this.txtSourcePath.Size = new System.Drawing.Size(401, 25);
+            this.txtSourcePath.Size = new System.Drawing.Size(391, 25);
             this.txtSourcePath.TabIndex = 1;
             // 
             // btnOpenSourceFB
             // 
+            this.btnOpenSourceFB.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnOpenSourceFB.Location = new System.Drawing.Point(589, 35);
             this.btnOpenSourceFB.Name = "btnOpenSourceFB";
             this.btnOpenSourceFB.Size = new System.Drawing.Size(94, 25);
@@ -135,6 +139,7 @@
             // 
             // btnOpenDestinationFB
             // 
+            this.btnOpenDestinationFB.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnOpenDestinationFB.Location = new System.Drawing.Point(589, 76);
             this.btnOpenDestinationFB.Name = "btnOpenDestinationFB";
             this.btnOpenDestinationFB.Size = new System.Drawing.Size(94, 25);
@@ -145,9 +150,9 @@
             // 
             // txtDestinationPath
             // 
-            this.txtDestinationPath.Location = new System.Drawing.Point(181, 76);
+            this.txtDestinationPath.Location = new System.Drawing.Point(192, 75);
             this.txtDestinationPath.Name = "txtDestinationPath";
-            this.txtDestinationPath.Size = new System.Drawing.Size(401, 25);
+            this.txtDestinationPath.Size = new System.Drawing.Size(391, 25);
             this.txtDestinationPath.TabIndex = 3;
             // 
             // label4
@@ -162,7 +167,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(23, 120);
+            this.label5.Location = new System.Drawing.Point(23, 118);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(55, 18);
             this.label5.TabIndex = 14;
@@ -175,7 +180,7 @@
             this.cbxTypeOfFile.Items.AddRange(new object[] {
             "Image Files",
             "Document Files"});
-            this.cbxTypeOfFile.Location = new System.Drawing.Point(181, 117);
+            this.cbxTypeOfFile.Location = new System.Drawing.Point(192, 115);
             this.cbxTypeOfFile.Name = "cbxTypeOfFile";
             this.cbxTypeOfFile.Size = new System.Drawing.Size(224, 26);
             this.cbxTypeOfFile.TabIndex = 5;
@@ -184,6 +189,7 @@
             // 
             this.btnCopyAndMove.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCopyAndMove.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnCopyAndMove.Location = new System.Drawing.Point(762, 378);
             this.btnCopyAndMove.Name = "btnCopyAndMove";
             this.btnCopyAndMove.Size = new System.Drawing.Size(467, 35);
@@ -195,6 +201,7 @@
             // 
             this.btnJustMove.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnJustMove.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnJustMove.Location = new System.Drawing.Point(762, 419);
             this.btnJustMove.Name = "btnJustMove";
             this.btnJustMove.Size = new System.Drawing.Size(467, 35);
@@ -212,7 +219,7 @@
             this.btnOpenInformationForm.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
             this.btnOpenInformationForm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnOpenInformationForm.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnOpenInformationForm.Location = new System.Drawing.Point(762, 599);
+            this.btnOpenInformationForm.Location = new System.Drawing.Point(762, 682);
             this.btnOpenInformationForm.Name = "btnOpenInformationForm";
             this.btnOpenInformationForm.Size = new System.Drawing.Size(467, 35);
             this.btnOpenInformationForm.TabIndex = 13;
@@ -222,6 +229,9 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.ckbSeparateFiles);
+            this.groupBox2.Controls.Add(this.ckbSaveToNewFolder);
+            this.groupBox2.Controls.Add(this.txtNewFolderName);
             this.groupBox2.Controls.Add(this.lblMultipleFileNamesStatus);
             this.groupBox2.Controls.Add(this.btnOpenMultipleFileNameImportingForm);
             this.groupBox2.Controls.Add(this.radMultipleFileNameImportingForm);
@@ -239,16 +249,44 @@
             this.groupBox2.Location = new System.Drawing.Point(29, 90);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(20);
-            this.groupBox2.Size = new System.Drawing.Size(706, 244);
+            this.groupBox2.Size = new System.Drawing.Size(706, 323);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Thông tin";
+            // 
+            // ckbSeparateFiles
+            // 
+            this.ckbSeparateFiles.AutoSize = true;
+            this.ckbSeparateFiles.Location = new System.Drawing.Point(26, 278);
+            this.ckbSeparateFiles.Name = "ckbSeparateFiles";
+            this.ckbSeparateFiles.Size = new System.Drawing.Size(220, 22);
+            this.ckbSeparateFiles.TabIndex = 26;
+            this.ckbSeparateFiles.Text = "Tách các files ra các folders riêng.";
+            this.ckbSeparateFiles.UseVisualStyleBackColor = true;
+            // 
+            // ckbSaveToNewFolder
+            // 
+            this.ckbSaveToNewFolder.AutoSize = true;
+            this.ckbSaveToNewFolder.Location = new System.Drawing.Point(26, 237);
+            this.ckbSaveToNewFolder.Name = "ckbSaveToNewFolder";
+            this.ckbSaveToNewFolder.Size = new System.Drawing.Size(160, 22);
+            this.ckbSaveToNewFolder.TabIndex = 25;
+            this.ckbSaveToNewFolder.Text = "Lưu trong thư mục mới:";
+            this.ckbSaveToNewFolder.UseVisualStyleBackColor = true;
+            this.ckbSaveToNewFolder.CheckedChanged += new System.EventHandler(this.ckbSaveToNewFolder_CheckedChanged);
+            // 
+            // txtNewFolderName
+            // 
+            this.txtNewFolderName.Location = new System.Drawing.Point(192, 235);
+            this.txtNewFolderName.Name = "txtNewFolderName";
+            this.txtNewFolderName.Size = new System.Drawing.Size(195, 25);
+            this.txtNewFolderName.TabIndex = 24;
             // 
             // lblMultipleFileNamesStatus
             // 
             this.lblMultipleFileNamesStatus.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.lblMultipleFileNamesStatus.AutoSize = true;
-            this.lblMultipleFileNamesStatus.Location = new System.Drawing.Point(281, 203);
+            this.lblMultipleFileNamesStatus.Location = new System.Drawing.Point(281, 242);
             this.lblMultipleFileNamesStatus.Name = "lblMultipleFileNamesStatus";
             this.lblMultipleFileNamesStatus.Size = new System.Drawing.Size(0, 18);
             this.lblMultipleFileNamesStatus.TabIndex = 24;
@@ -256,17 +294,19 @@
             // 
             // btnOpenMultipleFileNameImportingForm
             // 
-            this.btnOpenMultipleFileNameImportingForm.Location = new System.Drawing.Point(181, 200);
+            this.btnOpenMultipleFileNameImportingForm.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnOpenMultipleFileNameImportingForm.Location = new System.Drawing.Point(192, 196);
             this.btnOpenMultipleFileNameImportingForm.Name = "btnOpenMultipleFileNameImportingForm";
             this.btnOpenMultipleFileNameImportingForm.Size = new System.Drawing.Size(94, 25);
             this.btnOpenMultipleFileNameImportingForm.TabIndex = 9;
             this.btnOpenMultipleFileNameImportingForm.Text = "Mở hộp thoại";
             this.btnOpenMultipleFileNameImportingForm.UseVisualStyleBackColor = true;
+            this.btnOpenMultipleFileNameImportingForm.Click += new System.EventHandler(this.btnOpenMultipleFileNameImportingForm_Click);
             // 
             // radMultipleFileNameImportingForm
             // 
             this.radMultipleFileNameImportingForm.AutoSize = true;
-            this.radMultipleFileNameImportingForm.Location = new System.Drawing.Point(26, 201);
+            this.radMultipleFileNameImportingForm.Location = new System.Drawing.Point(26, 197);
             this.radMultipleFileNameImportingForm.Name = "radMultipleFileNameImportingForm";
             this.radMultipleFileNameImportingForm.Size = new System.Drawing.Size(104, 22);
             this.radMultipleFileNameImportingForm.TabIndex = 8;
@@ -278,7 +318,7 @@
             // radGeneralFileName
             // 
             this.radGeneralFileName.AutoSize = true;
-            this.radGeneralFileName.Location = new System.Drawing.Point(26, 160);
+            this.radGeneralFileName.Location = new System.Drawing.Point(26, 156);
             this.radGeneralFileName.Name = "radGeneralFileName";
             this.radGeneralFileName.Size = new System.Drawing.Size(108, 22);
             this.radGeneralFileName.TabIndex = 6;
@@ -289,15 +329,16 @@
             // 
             // txtGeneralFileName
             // 
-            this.txtGeneralFileName.Location = new System.Drawing.Point(181, 159);
+            this.txtGeneralFileName.Location = new System.Drawing.Point(192, 156);
             this.txtGeneralFileName.Name = "txtGeneralFileName";
             this.txtGeneralFileName.Size = new System.Drawing.Size(224, 25);
             this.txtGeneralFileName.TabIndex = 7;
+            this.txtGeneralFileName.TextChanged += new System.EventHandler(this.txtGeneralFileName_TextChanged);
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(26, 378);
+            this.label7.Location = new System.Drawing.Point(26, 431);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(65, 18);
             this.label7.TabIndex = 18;
@@ -346,9 +387,10 @@
             this.btnCheckBeforeRun.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCheckBeforeRun.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.btnCheckBeforeRun.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnCheckBeforeRun.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
             this.btnCheckBeforeRun.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCheckBeforeRun.Location = new System.Drawing.Point(762, 558);
+            this.btnCheckBeforeRun.Location = new System.Drawing.Point(762, 641);
             this.btnCheckBeforeRun.Name = "btnCheckBeforeRun";
             this.btnCheckBeforeRun.Size = new System.Drawing.Size(467, 35);
             this.btnCheckBeforeRun.TabIndex = 10;
@@ -381,7 +423,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1252, 657);
+            this.ClientSize = new System.Drawing.Size(1252, 740);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.btnCheckBeforeRun);
@@ -440,6 +482,9 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label lblMultipleFileNamesStatus;
         public System.Windows.Forms.RichTextBox rtbOutput;
+        private System.Windows.Forms.TextBox txtNewFolderName;
+        private System.Windows.Forms.CheckBox ckbSaveToNewFolder;
+        private System.Windows.Forms.CheckBox ckbSeparateFiles;
     }
 }
 

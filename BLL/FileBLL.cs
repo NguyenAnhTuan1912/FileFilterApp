@@ -10,7 +10,7 @@ namespace FileFilter.BLL
 {
     public class FileBLL
     {
-        private static FileDAL _fileDAL = FileDAL.GetInstance();
+        private FileDAL _fileDAL = FileDAL.GetInstance();
 
         public string getSelectedPathFromFBD()
         {
@@ -21,6 +21,11 @@ namespace FileFilter.BLL
             {
                 return "";
             }
+        }
+
+        public string[] readInTextFile(string path)
+        {
+            return _fileDAL.ReadFile(path);
         }
     }
 }

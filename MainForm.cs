@@ -1,12 +1,15 @@
 ﻿using FileFilter.BLL;
 using FileFilter.BLL.Extensions;
 using FileFilter.BLL.Helpers;
+using FileFilter.DTO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,13 +18,16 @@ namespace FileFilter
 {
     public partial class FileFilterForm : Form
     {
-        private static FileBLL _fileBll = new FileBLL();
-        private FormHelper _formHelper; 
+        private FileBLL _fileBll = new FileBLL();
+        private FormHelper _formHelper;
+        private string _projectDir = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
+        private string[] _appInformationRTBOutputTemplate = null;
+        private string[] _checkInputRTBOutputTemplate = null;
 
         public FileFilterForm()
         {
             InitializeComponent();
-            _formHelper = new FormHelper(this);
+            _formHelper = new FormHelper();
 
             Init();
         }
@@ -29,9 +35,12 @@ namespace FileFilter
         public void Init()
         {
             radGeneralFileName.Checked = true;
+            ckbSaveToNewFolder.Checked = true;
+            ckbSeparateFiles.Checked = true;
             cbxTypeOfFile.DataSource = cbxTypeOfFile.Items;
         }
-
+        ///////////////////////////
+        // Begin radio button events
         private void radGeneralFileName_CheckedChanged(object sender, EventArgs e)
         {
             if(radGeneralFileName.Checked)
@@ -50,6 +59,28 @@ namespace FileFilter
             }
         }
 
+        private void ckbSaveToNewFolder_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ckbSaveToNewFolder.Checked)
+            {
+                txtNewFolderName.Enabled = true;
+            } else
+            {
+                txtNewFolderName.Enabled = false;
+            }
+        }
+        // End radio button event
+
+        ///////////////////////////
+        // Begin text events
+        private void txtGeneralFileName_TextChanged(object sender, EventArgs e)
+        {
+            txtNewFolderName.Text = txtGeneralFileName.Text.Trim();
+        }
+        // End text events
+
+        ///////////////////////////
+        // Begin button events
         private void btnOpenSourceFB_Click(object sender, EventArgs e)
         {
             txtSourcePath.Text = _fileBll.getSelectedPathFromFBD();
@@ -62,91 +93,97 @@ namespace FileFilter
 
         private void btnCheckBeforeRun_Click(object sender, EventArgs e)
         {
-            _formHelper.clearOutputBox();
-
-            _formHelper.appendTextToOutputBox("Đường dẫn tới thư mục nguồn: ");
-            _formHelper.appendTextToOutputBoxWithColor(txtSourcePath.Text, Color.Green);
-
-            _formHelper.appendTextToOutputBox("\n");
-
-            _formHelper.appendTextToOutputBox("Đường dẫn tới thư mục đích: ");
-            _formHelper.appendTextToOutputBoxWithColor(txtDestinationPath.Text, Color.Green);
-
-            _formHelper.appendTextToOutputBox("\n");
-
             string typeOfFileOutputText = cbxTypeOfFile.SelectedIndex == 0 ? "File ảnh (JPG/JPEG/PNG/RAW)" : "File tài liệu (TXT/PDF/DOC/DOCX)";
-            _formHelper.appendTextToOutputBox("Loại file: ");
-            _formHelper.appendTextToOutputBoxWithColor(typeOfFileOutputText, Color.Green);
-
-            _formHelper.appendTextToOutputBox("\n");
-
             string fileNameOptionOutputText = radGeneralFileName.Checked ? " Tên chung cho nhiều files - " + txtGeneralFileName.Text : "Nhiều tên files";
-            _formHelper.appendTextToOutputBox("Bạn chọn: ");
-            _formHelper.appendTextToOutputBoxWithColor(fileNameOptionOutputText, Color.Green);
-
-            _formHelper.appendTextToOutputBox("\n");
-            _formHelper.appendTextToOutputBox("\n");
-
+            string newFolderNameOptionOutputText = ckbSaveToNewFolder.Checked ? txtNewFolderName.Text : "Không";
+            string newFolderNameOptionOutputColor = ckbSaveToNewFolder.Checked ? "Green" : "Red";
+            string separateFilesOptionOutputText = ckbSeparateFiles.Checked ? "Có" : "Không";
+            string separateFilesOptionOutputColor = ckbSeparateFiles.Checked ? "Green" : "Red";
             int foundFileOutputText = 0;
-            _formHelper.appendTextToOutputBox("Đã tìm thấy: ");
-            _formHelper.appendTextToOutputBoxWithColor(String.Format("{0} file(s).", foundFileOutputText), foundFileOutputText == 0 ? Color.Red : Color.Green);
+            _formHelper.clearOutputBox(rtbOutput);
+
+            _formHelper.printOutput(rtbOutput, new List<string>
+            {
+                "Đường dẫn tới thư mục nguồn: ",
+                String.Format("[Green]|{0}", txtSourcePath.Text),
+                "\n",
+                "Đường dẫn tới thư mục đích: ",
+                String.Format("[Green]|{0}", txtDestinationPath.Text),
+                "\n",
+                "Loại file: ",
+                String.Format("[Green]|{0}", typeOfFileOutputText),
+                "\n",
+                "Bạn chọn: ",
+                String.Format("[Green]|{0}", fileNameOptionOutputText),
+                "\n",
+                "Lưu trong thư mục mới (thư mục con của thư mục đích): ",
+                String.Format("[{0}]|{1}", newFolderNameOptionOutputColor, newFolderNameOptionOutputText),
+                "\n",
+                "Tách các files: ",
+                String.Format("[{0}]|{1}", separateFilesOptionOutputColor, separateFilesOptionOutputText),
+                "\n\n",
+                "Đã tìm thấy: ",
+                String.Format("[{0}]|{1} file(s).", foundFileOutputText == 0 ? "Red" : "Green", foundFileOutputText)
+            });
         }
 
         private void btnOpenInformationForm_Click(object sender, EventArgs e)
         {
-            _formHelper.clearOutputBox();
-
-            _formHelper.appendTextToOutputBox("File Filter");
-            _formHelper.appendTextToOutputBox("\n");
-            _formHelper.appendTextToOutputBox("Phiên bản hiện tại: ");
-            _formHelper.appendTextToOutputBoxWithColor("1.0.0", Color.Green);
-            _formHelper.appendTextToOutputBox("\n");
-            _formHelper.appendTextToOutputBox("Được viết bởi: ");
-            _formHelper.appendTextToOutputBoxWithColor("Nguyen Anh Tuan", Color.Green);
-
-            _formHelper.appendTextToOutputBox("\n");
-            _formHelper.appendTextToOutputBox("\n");
-
-            _formHelper.appendTextToOutputBoxWithColor("Thông tin về File Filter", Color.Red);
-            _formHelper.appendTextToOutputBox("\n");
-            _formHelper.appendTextToOutputBox("---");
-            _formHelper.appendTextToOutputBox("\n");
-            _formHelper.appendTextToOutputBox(
+            _formHelper.clearOutputBox(rtbOutput);
+            /*
+            if (_appInformationRTBOutputTemplate is null)
+            {
+                string otherDir = Path.Combine(_projectDir, "Other");
+                string appInformationRTBOutputTemplateDir = Path.Combine(otherDir, "AppInformationRTBOutputTemplate.txt");
+                _appInformationRTBOutputTemplate = _fileBll.readTemplateInTextFile(appInformationRTBOutputTemplateDir);
+            }
+            _formHelper.printOutput(_appInformationRTBOutputTemplate.ToList());
+            */
+            _formHelper.printOutput(rtbOutput, new List<string>
+            {
+                "File Filter",
+                "\n",
+                "Phiên bản hiện tại: ",
+                "[Green]|1.0.0",
+                "\n",
+                "Được viết bời: ",
+                "[Green]|Nguyen Anh Tuan",
+                "\n\n",
+                "[Red]|Thông tin về File Filter",
+                "\n---\n",
                 "Là ứng dụng dùng để lọc file theo LOẠI của file. " +
                 "Các bạn có thể dùng để lọc theo tên chung, hoặc lọc theo nhiều tên. " +
                 "Ứng dụng này ban đầu được tạo ra dành cho các thợ chụp hình/người hay chụp ảnh/nhiếp ảnh gia " +
-                "dùng để lọc ra các file theo loại + theo tên người chụp." +
-            "");
-            _formHelper.appendTextToOutputBox("\n");
-            _formHelper.appendTextToOutputBox("Ứng dụng sẽ được update trong tưuong lai.");
-            _formHelper.appendTextToOutputBox("\n");
-            _formHelper.appendTextToOutputBox("\n");
-            _formHelper.appendTextToOutputBox("Tài liệu hướng dẫn: ");
-            _formHelper.appendTextToOutputBox("\n");
-            _formHelper.appendTextToOutputBox("Video hướng dẫn: ");
-
-            _formHelper.appendTextToOutputBox("\n");
-            _formHelper.appendTextToOutputBox("---");
-
-            _formHelper.appendTextToOutputBox("\n");
-            _formHelper.appendTextToOutputBox("\n");
-
-            _formHelper.appendTextToOutputBoxWithColor("Thông tin về tác giả", Color.Red);
-            _formHelper.appendTextToOutputBox("\n");
-            _formHelper.appendTextToOutputBox("---");
-            _formHelper.appendTextToOutputBox("\n");
-            _formHelper.appendTextToOutputBox("Với định hướng là một Front-end developer (hiện tại thì có thêm Back-end, Mobile developer), thì mình làm ra ứng dụng này là để học thêm nhiều về C# và Window Form.");
-            _formHelper.appendTextToOutputBox("\n");
-            _formHelper.appendTextToOutputBox("\n");
-            _formHelper.appendTextToOutputBox("Nếu trong quá trình có gặp vấn đề gì hoặc có góp ý thì các bạn vui lòng góp ý thông qua");
-            _formHelper.appendTextToOutputBox("\n");
-            _formHelper.appendTextToOutputBox("Facebook: https://www.facebook.com/tunanguyen19");
-            _formHelper.appendTextToOutputBox("\n");
-            _formHelper.appendTextToOutputBox("E-mail: ");
-            _formHelper.appendTextToOutputBoxWithColor("nguyenanhtuan19122002@gmail.com", Color.DodgerBlue);
-            _formHelper.appendTextToOutputBox("\n");
-            _formHelper.appendTextToOutputBox("\n");
-            _formHelper.appendTextToOutputBox("Xem thêm các dự án khác của mình tại: https://github.com/NguyenAnhTuan1912");
+                "dùng để lọc ra các file theo loại + theo tên người chụp.",
+                "\n",
+                "Ứng dụng sẽ được update trong tương lai.",
+                "\n\n",
+                "Tài liệu hướng dẫn: ",
+                "\n",
+                "Video hướng dẫn: ",
+                "\n---\n\n",
+                "[Red]|Thông tin về tác giả",
+                "\n---\n",
+                "Chào các bạn, mình là Tuấn, mình là dev nghiệp dư và đang trên \"con đường\" học hỏi nhiều thứ mới.",
+                "\n\n",
+                "Nếu trong quá trình có gặp vấn đề gì hoặc có góp ý thì các bạn vui lòng góp ý thông qua",
+                "\n",
+                "Facebook: https://www.facebook.com/tunanguyen19",
+                "\n",
+                "Email: ",
+                "[DodgerBlue]|nguyenanhtuan19122002@gmail.com",
+                "\n\n",
+                "Xem thêm các dự án khác của mình tại: https://github.com/NguyenAnhTuan1912"
+            });
         }
+
+        private void btnOpenMultipleFileNameImportingForm_Click(object sender, EventArgs e)
+        {
+            FileNamesImporterDialog fniDialog = new FileNamesImporterDialog();
+            fniDialog.ShowDialog();
+            MessageBox.Show("Tìm thấy: " + fniDialog.lines.Length.ToString() + " file(s).", "TEST", MessageBoxButtons.OK);
+        }
+        // End button events
+
     }
 }

@@ -1,0 +1,33 @@
+﻿File Filter
+
+Phiên bản hiện tại: 
+[Green]|1.0.0
+
+Được viết bời: 
+[Green]|Nguyen Anh Tuan
+
+[Red]|Thông tin về File Filter
+---
+Là ứng dụng dùng để lọc file theo LOẠI của file. 
+Các bạn có thể dùng để lọc theo tên chung, hoặc lọc theo nhiều tên. 
+Ứng dụng này ban đầu được tạo ra dành cho các thợ chụp hình/người hay chụp ảnh/nhiếp ảnh gia 
+dùng để lọc ra các file theo loại + theo tên người chụp. 
+
+Ứng dụng sẽ được update trong tương lai.
+
+Tài liệu hướng dẫn: 
+
+Video hướng dẫn: 
+---
+[Red]|Thông tin về tác giả
+---
+Chào các bạn, mình là Tuấn, mình là dev nghiệp dư và đang trên \con đường\ học hỏi nhiều thứ mới. 
+
+Nếu trong quá trình có gặp vấn đề gì hoặc có góp ý thì các bạn vui lòng góp ý thông qua,
+
+Facebook: https://www.facebook.com/tunanguyen19
+
+Email: 
+[DodgerBlue]|nguyenanhtuan19122002@gmail.com
+
+Xem thêm các dự án khác của mình tại: https://github.com/NguyenAnhTuan1912

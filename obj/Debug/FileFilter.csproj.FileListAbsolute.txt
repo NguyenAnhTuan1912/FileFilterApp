@@ -9,3 +9,4 @@ D:\Hoctap\(3) C-Sharp\FileFilter\FileFilter\obj\Debug\FileFilter.csproj.CoreComp
 D:\Hoctap\(3) C-Sharp\FileFilter\FileFilter\obj\Debug\FileFilter.exe
 D:\Hoctap\(3) C-Sharp\FileFilter\FileFilter\obj\Debug\FileFilter.pdb
 D:\Hoctap\(3) C-Sharp\FileFilter\FileFilter\obj\Debug\FileFilter.FileFilterForm.resources
+D:\Hoctap\(3) C-Sharp\FileFilter\FileFilter\obj\Debug\FileFilter.FileNamesImporterDialog.resources
