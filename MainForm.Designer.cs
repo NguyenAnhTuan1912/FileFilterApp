@@ -60,7 +60,8 @@
             this.dateModified = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnCheckBeforeRun = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
+            this.lblLVFoundFileNumbers = new System.Windows.Forms.Label();
+            this.lblMultipleFileNamesVerify = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -229,6 +230,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.lblMultipleFileNamesVerify);
             this.groupBox2.Controls.Add(this.ckbSeparateFiles);
             this.groupBox2.Controls.Add(this.ckbSaveToNewFolder);
             this.groupBox2.Controls.Add(this.txtNewFolderName);
@@ -407,16 +409,27 @@
             this.label6.TabIndex = 22;
             this.label6.Text = "Danh sách các files:";
             // 
-            // label8
+            // lblLVFoundFileNumbers
             // 
-            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(1125, 35);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(104, 18);
-            this.label8.TabIndex = 23;
-            this.label8.Text = "Tìm thấy 0 file(s)";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.lblLVFoundFileNumbers.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblLVFoundFileNumbers.AutoSize = true;
+            this.lblLVFoundFileNumbers.Location = new System.Drawing.Point(1125, 35);
+            this.lblLVFoundFileNumbers.Name = "lblLVFoundFileNumbers";
+            this.lblLVFoundFileNumbers.Size = new System.Drawing.Size(104, 18);
+            this.lblLVFoundFileNumbers.TabIndex = 23;
+            this.lblLVFoundFileNumbers.Text = "Tìm thấy 0 file(s)";
+            this.lblLVFoundFileNumbers.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // lblMultipleFileNamesVerify
+            // 
+            this.lblMultipleFileNamesVerify.AutoSize = true;
+            this.lblMultipleFileNamesVerify.Font = new System.Drawing.Font("Roboto", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMultipleFileNamesVerify.ForeColor = System.Drawing.Color.Red;
+            this.lblMultipleFileNamesVerify.Location = new System.Drawing.Point(292, 197);
+            this.lblMultipleFileNamesVerify.Name = "lblMultipleFileNamesVerify";
+            this.lblMultipleFileNamesVerify.Size = new System.Drawing.Size(18, 20);
+            this.lblMultipleFileNamesVerify.TabIndex = 27;
+            this.lblMultipleFileNamesVerify.Text = "X";
             // 
             // FileFilterForm
             // 
@@ -424,7 +437,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1252, 740);
-            this.Controls.Add(this.label8);
+            this.Controls.Add(this.lblLVFoundFileNumbers);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.btnCheckBeforeRun);
             this.Controls.Add(this.ltvFiles);
@@ -479,12 +492,13 @@
         private System.Windows.Forms.ColumnHeader fileExtension;
         private System.Windows.Forms.ColumnHeader typeOfFile;
         private System.Windows.Forms.ColumnHeader dateModified;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label lblLVFoundFileNumbers;
         private System.Windows.Forms.Label lblMultipleFileNamesStatus;
         public System.Windows.Forms.RichTextBox rtbOutput;
         private System.Windows.Forms.TextBox txtNewFolderName;
         private System.Windows.Forms.CheckBox ckbSaveToNewFolder;
         private System.Windows.Forms.CheckBox ckbSeparateFiles;
+        private System.Windows.Forms.Label lblMultipleFileNamesVerify;
     }
 }
 

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FileFilter.BLL.Extensions
+namespace FileFilter.Extensions
 {
     public static class RichTextBoxExtension
     {

@@ -31,8 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FileNamesImporterDialog));
             this.rtbFileNames = new System.Windows.Forms.RichTextBox();
             this.btnImport = new System.Windows.Forms.Button();
-            this.btnCheckFile = new System.Windows.Forms.Button();
-            this.rtbOutput = new System.Windows.Forms.RichTextBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
@@ -42,10 +40,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbFileNames.Font = new System.Drawing.Font("Roboto", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rtbFileNames.Location = new System.Drawing.Point(27, 180);
+            this.rtbFileNames.Location = new System.Drawing.Point(24, 172);
             this.rtbFileNames.Margin = new System.Windows.Forms.Padding(4);
             this.rtbFileNames.Name = "rtbFileNames";
-            this.rtbFileNames.Size = new System.Drawing.Size(573, 392);
+            this.rtbFileNames.Size = new System.Drawing.Size(579, 458);
             this.rtbFileNames.TabIndex = 0;
             this.rtbFileNames.Text = "";
             this.rtbFileNames.DragDrop += new System.Windows.Forms.DragEventHandler(this.rtbFileNames_DragDrop);
@@ -55,42 +53,13 @@
             this.btnImport.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnImport.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnImport.Location = new System.Drawing.Point(444, 637);
+            this.btnImport.Location = new System.Drawing.Point(441, 638);
             this.btnImport.Name = "btnImport";
-            this.btnImport.Size = new System.Drawing.Size(156, 36);
+            this.btnImport.Size = new System.Drawing.Size(162, 36);
             this.btnImport.TabIndex = 2;
             this.btnImport.Text = "Thêm";
             this.btnImport.UseVisualStyleBackColor = true;
             this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
-            // 
-            // btnCheckFile
-            // 
-            this.btnCheckFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCheckFile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.btnCheckFile.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCheckFile.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.btnCheckFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCheckFile.Location = new System.Drawing.Point(444, 595);
-            this.btnCheckFile.Name = "btnCheckFile";
-            this.btnCheckFile.Size = new System.Drawing.Size(156, 36);
-            this.btnCheckFile.TabIndex = 1;
-            this.btnCheckFile.Text = "Kiểm tra";
-            this.btnCheckFile.UseVisualStyleBackColor = false;
-            this.btnCheckFile.Click += new System.EventHandler(this.btnCheckFile_Click);
-            // 
-            // rtbOutput
-            // 
-            this.rtbOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.rtbOutput.BackColor = System.Drawing.SystemColors.Window;
-            this.rtbOutput.Location = new System.Drawing.Point(27, 595);
-            this.rtbOutput.Margin = new System.Windows.Forms.Padding(4);
-            this.rtbOutput.Name = "rtbOutput";
-            this.rtbOutput.ReadOnly = true;
-            this.rtbOutput.Size = new System.Drawing.Size(395, 78);
-            this.rtbOutput.TabIndex = 3;
-            this.rtbOutput.Text = "";
             // 
             // richTextBox1
             // 
@@ -111,10 +80,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(626, 705);
+            this.ClientSize = new System.Drawing.Size(626, 697);
             this.Controls.Add(this.richTextBox1);
-            this.Controls.Add(this.rtbOutput);
-            this.Controls.Add(this.btnCheckFile);
             this.Controls.Add(this.btnImport);
             this.Controls.Add(this.rtbFileNames);
             this.Font = new System.Drawing.Font("Roboto", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -123,7 +90,7 @@
             this.MaximumSize = new System.Drawing.Size(642, 1920);
             this.MinimumSize = new System.Drawing.Size(642, 642);
             this.Name = "FileNamesImporterDialog";
-            this.Padding = new System.Windows.Forms.Padding(23, 28, 23, 28);
+            this.Padding = new System.Windows.Forms.Padding(20);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ImportFileNamesDialog";
             this.ResumeLayout(false);
@@ -132,8 +99,6 @@
 
         #endregion
         private System.Windows.Forms.Button btnImport;
-        private System.Windows.Forms.Button btnCheckFile;
-        private System.Windows.Forms.RichTextBox rtbOutput;
         public System.Windows.Forms.RichTextBox rtbFileNames;
         private System.Windows.Forms.RichTextBox richTextBox1;
     }

@@ -1,7 +1,8 @@
 ﻿using FileFilter.BLL;
-using FileFilter.BLL.Extensions;
-using FileFilter.BLL.Helpers;
+using FileFilter.Extensions;
+using FileFilter.Helpers;
 using FileFilter.DTO;
+using FileFilter.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,22 +14,21 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Net.WebRequestMethods;
+using System.Security.Cryptography;
 
 namespace FileFilter
 {
     public partial class FileFilterForm : Form
     {
-        private FileBLL _fileBll = new FileBLL();
+        private FileBLL _fileBll;
         private FormHelper _formHelper;
-        private string _projectDir = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
-        private string[] _appInformationRTBOutputTemplate = null;
-        private string[] _checkInputRTBOutputTemplate = null;
+        private string[] _appInformationTemplate;
+        private string[] _appChecklogTemplate;
 
         public FileFilterForm()
         {
             InitializeComponent();
-            _formHelper = new FormHelper();
-
             Init();
         }
 
@@ -38,6 +38,11 @@ namespace FileFilter
             ckbSaveToNewFolder.Checked = true;
             ckbSeparateFiles.Checked = true;
             cbxTypeOfFile.DataSource = cbxTypeOfFile.Items;
+
+            _formHelper = new FormHelper();
+            _fileBll = FileBLL.GetInstance();
+            _appChecklogTemplate = _fileBll.readInTextFile(Path.Combine(FileBLL.ProjectDir, "Other", "AppCheckLogTemplate.txt"));
+            _appInformationTemplate = _fileBll.readInTextFile(Path.Combine(FileBLL.ProjectDir, "Other", "AppInformationTemplate.txt"));
         }
         ///////////////////////////
         // Begin radio button events
@@ -83,63 +88,102 @@ namespace FileFilter
         // Begin button events
         private void btnOpenSourceFB_Click(object sender, EventArgs e)
         {
-            txtSourcePath.Text = _fileBll.getSelectedPathFromFBD();
+            txtSourcePath.Text = FileBLL.ShowFolderBrowseDialog();
         }
 
         private void btnOpenDestinationFB_Click(object sender, EventArgs e)
         {
-            txtDestinationPath.Text = _fileBll.getSelectedPathFromFBD();
+            txtDestinationPath.Text = FileBLL.ShowFolderBrowseDialog();
         }
 
         private void btnCheckBeforeRun_Click(object sender, EventArgs e)
         {
-            string typeOfFileOutputText = cbxTypeOfFile.SelectedIndex == 0 ? "File ảnh (JPG/JPEG/PNG/RAW)" : "File tài liệu (TXT/PDF/DOC/DOCX)";
-            string fileNameOptionOutputText = radGeneralFileName.Checked ? " Tên chung cho nhiều files - " + txtGeneralFileName.Text : "Nhiều tên files";
-            string newFolderNameOptionOutputText = ckbSaveToNewFolder.Checked ? txtNewFolderName.Text : "Không";
-            string newFolderNameOptionOutputColor = ckbSaveToNewFolder.Checked ? "Green" : "Red";
-            string separateFilesOptionOutputText = ckbSeparateFiles.Checked ? "Có" : "Không";
-            string separateFilesOptionOutputColor = ckbSeparateFiles.Checked ? "Green" : "Red";
-            int foundFileOutputText = 0;
+            string sourcePath = txtSourcePath.Text;
+            string destinationPath = txtDestinationPath.Text;
+            string extension = cbxTypeOfFile.SelectedIndex == 0 ? "JPG|jpg|JPEG|jpeg|PNG|png|RAW|raw" : "TXT|txt|PDF|pdf|DOC|doc|DOCX|docx";
+            string generalFileName = txtGeneralFileName.Text;
+            string fileNameOption = radGeneralFileName.Checked ? " Tên chung cho nhiều files - " + txtGeneralFileName.Text : "Nhiều tên files";
+            string separateFilesOption = ckbSeparateFiles.Checked ? "Có" : "Không";
+            string separateFilesOptionColor = ckbSeparateFiles.Checked ? "Green" : "Red";
+            List<FileInfo> files = _fileBll.getAllFilesInfo(sourcePath, generalFileName, extension);
+
+            string textResultOfSourcePathOutputTextAfterValidate = "[Green]|(Đường dẫn hợp lệ!)";
+            string textResultOfSourcePathOutputTextAfterCheck = "[Green]|(Thư mục tồn tại!)";
+            if(!ValidatorUtility.ValidateFullFolderPath(sourcePath))
+            {
+                textResultOfSourcePathOutputTextAfterValidate = "[Red]|(Đường dẫn không hợp lệ!)";
+                if (!_fileBll.isDirectoryExist(sourcePath)) textResultOfSourcePathOutputTextAfterCheck = "[Red]|(Thư mục không tồn tại!)";
+            }
+
+            string textResultOfDestinationPathOutputTextAfterValidate = "[Green]| (Đường dẫn hợp lệ!)";
+            string textResultOfDestinationPathOutputTextAfterCheck = "[Green]|(Thư mục tồn tại!)";
+            if (!ValidatorUtility.ValidateFullFolderPath(destinationPath))
+            {
+                textResultOfDestinationPathOutputTextAfterValidate = "[Red]|(Đường dẫn không hợp lệ!)";
+                if (!_fileBll.isDirectoryExist(destinationPath)) textResultOfDestinationPathOutputTextAfterCheck = "[Red]|(Thư mục không tồn tại!)";
+            }
+
+            string textResultOfGeneralFileNameAfterValidate = "[Green]|(Tên file chung hợp lệ!)";
+            if(!ValidatorUtility.ValidateText(generalFileName))
+            {
+                textResultOfGeneralFileNameAfterValidate = "[Red]| (Tên file chung không hợp lệ!)";
+            }
+            if(txtGeneralFileName.Text == "")
+            {
+                textResultOfGeneralFileNameAfterValidate = "[Red]|(Không có)";
+            }
+
+            string textResultOfNewForlderOptionAfterValidate = "[Green]|" + txtNewFolderName.Text + " (Có)";
+            if(ckbSaveToNewFolder.Checked)
+            {
+                txtNewFolderName.Text = txtNewFolderName.Text == "" ?  "New Folder" : txtNewFolderName.Text;
+                textResultOfNewForlderOptionAfterValidate = "[Green]|" + txtNewFolderName.Text + " (Mặc định)";
+            }
+
+            int foundFileOutputText = files.Count();
+            lblLVFoundFileNumbers.Text = String.Format("Tìm thấy {0} file(s)", foundFileOutputText.ToString());
+
+            _formHelper.insertToListView(ltvFiles, files);
+
             _formHelper.clearOutputBox(rtbOutput);
 
-            _formHelper.printOutput(rtbOutput, new List<string>
+            _formHelper.writeLinesToRichTextBox(rtbOutput, new List<string>
             {
-                "Đường dẫn tới thư mục nguồn: ",
-                String.Format("[Green]|{0}", txtSourcePath.Text),
+                String.Format("Đường dẫn tới thư mục nguồn: {0} ", sourcePath),
+                textResultOfSourcePathOutputTextAfterValidate,
+                textResultOfSourcePathOutputTextAfterCheck,
                 "\n",
-                "Đường dẫn tới thư mục đích: ",
-                String.Format("[Green]|{0}", txtDestinationPath.Text),
+                String.Format("Đường dẫn tới thư mục đích: {0} ", destinationPath),
+                textResultOfDestinationPathOutputTextAfterValidate,
+                textResultOfDestinationPathOutputTextAfterCheck,
                 "\n",
                 "Loại file: ",
-                String.Format("[Green]|{0}", typeOfFileOutputText),
+                String.Format("[Green]|File ({0})", extension),
                 "\n",
                 "Bạn chọn: ",
-                String.Format("[Green]|{0}", fileNameOptionOutputText),
+                String.Format("[Green]|{0} ", fileNameOption),
                 "\n",
-                "Lưu trong thư mục mới (thư mục con của thư mục đích): ",
-                String.Format("[{0}]|{1}", newFolderNameOptionOutputColor, newFolderNameOptionOutputText),
+                String.Format("Tên file chung: {0} ", generalFileName),
+                textResultOfGeneralFileNameAfterValidate,
+                "\n",
+                "Lưu trong thư mục mới (thư mục con của thư mục đích):  ",
+                textResultOfNewForlderOptionAfterValidate,
                 "\n",
                 "Tách các files: ",
-                String.Format("[{0}]|{1}", separateFilesOptionOutputColor, separateFilesOptionOutputText),
+                String.Format("[{0}]|{1} ", separateFilesOptionColor, separateFilesOption),
                 "\n\n",
                 "Đã tìm thấy: ",
-                String.Format("[{0}]|{1} file(s).", foundFileOutputText == 0 ? "Red" : "Green", foundFileOutputText)
+                String.Format("[{0}]|{1} file(s). ", foundFileOutputText == 0 ? "Red" : "Green", foundFileOutputText)
             });
         }
 
         private void btnOpenInformationForm_Click(object sender, EventArgs e)
         {
             _formHelper.clearOutputBox(rtbOutput);
+            _formHelper.writeLinesToRichTextBox(rtbOutput, _appInformationTemplate.ToList());
+
             /*
-            if (_appInformationRTBOutputTemplate is null)
-            {
-                string otherDir = Path.Combine(_projectDir, "Other");
-                string appInformationRTBOutputTemplateDir = Path.Combine(otherDir, "AppInformationRTBOutputTemplate.txt");
-                _appInformationRTBOutputTemplate = _fileBll.readTemplateInTextFile(appInformationRTBOutputTemplateDir);
-            }
-            _formHelper.printOutput(_appInformationRTBOutputTemplate.ToList());
-            */
-            _formHelper.printOutput(rtbOutput, new List<string>
+            _formHelper.writeLinesToRichTextBox(rtbOutput, new List<string>
             {
                 "File Filter",
                 "\n",
@@ -175,13 +219,15 @@ namespace FileFilter
                 "\n\n",
                 "Xem thêm các dự án khác của mình tại: https://github.com/NguyenAnhTuan1912"
             });
+            */
         }
 
         private void btnOpenMultipleFileNameImportingForm_Click(object sender, EventArgs e)
         {
             FileNamesImporterDialog fniDialog = new FileNamesImporterDialog();
             fniDialog.ShowDialog();
-            MessageBox.Show("Tìm thấy: " + fniDialog.lines.Length.ToString() + " file(s).", "TEST", MessageBoxButtons.OK);
+            // numberOfExistedFilesFromImportFileNamesFind = fniDialog.numberOfExistedFiles;
+            MessageBoxUtility.ShowInfo(_fileBll.fileNames.Length.ToString());
         }
         // End button events
 

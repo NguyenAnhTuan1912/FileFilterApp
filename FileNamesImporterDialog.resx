@@ -122,8 +122,8 @@
 Nếu như bạn muốn kèo file(s) thì kèo file(s) vào trong text box lớn. 
 
 Lưu ý:
-- Nếu như bạn import tên file trong file .txt thì chỉ cần kèo file .txt đó vào thôi.
-- Nếu như bạn muốn tên của những tấm ảnh mà bạn đang chọn, thì bạn kéo những tấm ảnh đó vào.
+- Bạn có thể import tên file trực tiếp tại đây hoặc kéo thả file .txt chứa các file names vào đây.
+- Trong này chỉ chứa duy nhất tên file (không chứa phần mở rộng).
 </value>
   </data>
 </root>

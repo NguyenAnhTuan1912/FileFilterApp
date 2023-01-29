@@ -1,0 +1,9 @@
+﻿Đường dẫn tới thư mục nguồn: [SourcePathValidateResult]
+Đường dẫn tới thư mục đích: [DestinationValidateResult]
+Loại file: [TypeOfFileResult]
+Bạn chọn: [GeneralFileNameOptionResult]
+Tên file chung: [GeneralFileNameValidateResult]
+Lưu trong thư mục mới (thư mục con của thư mục đích):  [NewFolderOptionResult]
+Tách các files: [ClassifyFilesOptionResult]
+
+Đã tìm thấy: [FoundFilesResult].

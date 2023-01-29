@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -11,88 +12,81 @@ namespace FileFilter.DAL
 {
     public class FileDAL
     {
-        private string _sourcePath;
-        private string _destinationPath;
-        private FolderBrowserDialog _folderBrowserDialog = new FolderBrowserDialog();
-
-        private static object _lock = new object();
-
-        public static FileDAL instance = null;
-
-        private FileDAL(string sourcePath) {
-            _sourcePath = sourcePath;
-        }
-
-        public static FileDAL GetInstance(string sourcePath = "")
-        {
-            if (instance == null)
-            {
-                lock(_lock)
-                {
-                    if (instance == null)
-                    {
-                        instance = new FileDAL(sourcePath);
-                    }
-                }
-            }
-            return instance;
+        public FileDAL() {
         }
 
         // Ohter methods
-        public void CreateDirectory(string directoryName, string directorySourcePath = "")
+        public void createDirectory(string directoryName, string directorySourcePath = "")
         {
 
         }
 
-        public bool CheckFile()
+        public bool isDirectoryExist(string fullFolderPath)
         {
-            return true;
+            bool check = Directory.Exists(fullFolderPath);
+            if (!check) throw new Exception("Thư mục không tồn tại!");
+            return check;
+            return false;
         }
 
-        public void MoveFile()
+        public bool isFileExist(string fullFilePath)
+        {
+            DirectoryInfo di = new DirectoryInfo(fullFilePath);
+            bool check = File.Exists(fullFilePath);
+            if (!check) throw new Exception("File không tồn tại!");
+            return check;
+        }
+
+        public void moveFile()
         {
 
         }
 
-        public void CopyFile()
+        public void copyFile()
         {
 
         }
 
-        public void DeleteFile()
+        public void deleteFile()
         {
             
         }
 
-        public string[] ReadFile(string path)
+        public List<string> getFullFilePaths(string fullFolderPath, string generalFileName, string extension)
         {
-            return File.ReadAllLines(path);
+            Regex generalFileNamePatternRegex = new Regex(String.Format("^([^\\/\\\\:*?\\\"<>|\\.]*)({0})([^\\/\\\\:*?\\\"<>|\\.]*)\\.({1})$", generalFileName, extension));
+            List<string> foundFullFilePaths = Directory
+                .EnumerateFiles(fullFolderPath, String.Format("{0}*.*", generalFileName))
+                .Where(file =>
+                    generalFileNamePatternRegex.IsMatch(Path.GetFileName(file))
+                )
+                .ToList();
+            return foundFullFilePaths;
         }
 
-        // Getter and Setter methods
-        public FolderBrowserDialog GetFolderBrowseDialog()
+        public List<FileInfo> getAllFilesInfo(string fullFolderPath, string generalFileName, string extension)
         {
-            return _folderBrowserDialog;
+            Regex generalFileNamePatternRegex = new Regex(String.Format("^([^\\/\\\\:*?\\\"<>|\\.]*)({0})([^\\/\\\\:*?\\\"<>|\\.]*)\\.({1})$", generalFileName, extension));
+            DirectoryInfo di = new DirectoryInfo(fullFolderPath);
+            List<FileInfo> files = di
+                //.GetFiles(String.Format("{0}*.*", generalFileName))
+                .EnumerateFiles(String.Format("{0}*.*", generalFileName))
+                .Where(file =>
+                    generalFileNamePatternRegex.IsMatch(Path.GetFileName(file.Name))
+                )
+                .ToList();
+            return files;
         }
 
-        public string getSourcePath()
+        public List<FileInfo> getAllFilesInfo(string fullFolderPath, string[] fileNames, string extension)
         {
-            return _sourcePath;
+            List<FileInfo> files = new List<FileInfo>();
+            return files;
         }
 
-        public void setSourcePath(string sourcePath)
+        public string[] readFile(string fullFilePath)
         {
-            _sourcePath = sourcePath;
-        }
-
-        public string getDestinationPath()
-        {
-            return _destinationPath;
-        }
-
-        public void setDestinationPath(string destinationPath)
-        {
-            _destinationPath = destinationPath;
+            return File.ReadLines(fullFilePath).ToArray();
         }
     }
 }
